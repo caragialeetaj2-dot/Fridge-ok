@@ -1,0 +1,33 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'ro.pitesti.watchweather'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId 'ro.pitesti.watchweather'
+        minSdk 14          // Android 4.0 and newer
+        targetSdk 34
+        versionCode 5
+        versionName '2.2-android4'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    lint {
+        abortOnError false
+        checkReleaseBuilds false
+    }
+}
+// No external libraries: plain Android SDK only.

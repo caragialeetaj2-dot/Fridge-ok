@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Watch Weather</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+
+  <!-- SCREEN 1: WATCH FACE -->
+  <div id="watch" class="screen active">
+    <div id="watchInner">
+      <div id="clock"><span id="hh">00</span><span class="colon">:</span><span id="mm">00</span><span class="sec" id="ss">00</span></div>
+      <div id="dayname">&nbsp;</div>
+      <div id="datefull">&nbsp;</div>
+    </div>
+  </div>
+
+  <!-- SCREEN 2: WEATHER -->
+  <div id="weather" class="screen">
+    <div class="sky cloudy-day" id="sky"></div>
+    <div class="wtop">
+      <div id="locName">PITESTI, ROMANIA</div>
+      <div id="locSub">Str. Banat, Arges County</div>
+      <div id="curTemp">--&deg;C</div>
+      <div class="tabs" id="tabs"></div>
+      <div class="curRight">
+        <div id="curIcon"></div>
+        <div id="curDesc">Loading...</div>
+        <div class="curDetails" id="curDetails"></div>
+      </div>
+    </div>
+    <div class="wbottom" id="forecastPanel">
+      <div class="forecastScroll" id="forecastScroll"><div id="forecast"></div></div>
+      <div class="wActions">
+        <span class="actionBtn refreshBtn" id="refreshBtn"><span class="ico">&#10227;</span> <span class="lbl" id="refreshLbl">Actualizeaz&#259;</span></span>
+        <span class="actionBtn toggleBtn" id="forecastToggle">Zile urm&#259;toare</span>
+      </div>
+      <div id="status"></div>
+    </div>
+  </div>
+
+  <div id="dots"></div>
+
+  <!-- EXIT (both screens) - closes on first tap -->
+  <span class="exitBtn" id="exitBtn">&#10005;</span>
+</div>
+<script src="app.js"></script>
+</body>
+</html>

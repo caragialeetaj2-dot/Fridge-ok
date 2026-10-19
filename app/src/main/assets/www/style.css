@@ -1,0 +1,156 @@
+/* Android 4.x compatible: no CSS variables, no flex gap, no inset, -webkit- prefixes everywhere. */
+* { -webkit-box-sizing: border-box; box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  width: 100%; height: 100%; background: #000; overflow: hidden; color: #fff;
+  font-family: "Roboto", "Droid Sans", Helvetica, Arial, sans-serif;
+  -webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: rgba(0,0,0,0);
+  -webkit-text-size-adjust: none;
+}
+/* Fixed 720p canvas, scaled by app.js (transform-origin top-left) */
+#app {
+  position: absolute; left: 0; top: 0; width: 1280px; height: 720px; overflow: hidden; background: #000;
+  -webkit-transform-origin: 0 0; transform-origin: 0 0;
+}
+.screen {
+  position: absolute; left: 0; top: 0; width: 1280px; height: 720px;
+  opacity: 0; visibility: hidden;
+  -webkit-transition: opacity .8s ease; transition: opacity .8s ease;
+}
+.screen.active { opacity: 1; visibility: visible; }
+
+/* ---------- WATCH ---------- */
+#watch { background: #000; }
+#watchInner { position: absolute; left: 0; width: 1280px; top: 105px; text-align: center; }
+#clock { font-size: 330px; font-weight: 200; line-height: 1; letter-spacing: -6px; white-space: nowrap; }
+#clock .colon { position: relative; top: -24px; margin: 0 4px; -webkit-animation: blink 1s steps(1) infinite; animation: blink 1s steps(1) infinite; }
+#clock .sec { font-size: 70px; font-weight: 300; letter-spacing: 0; margin-left: 18px; color: #bbb; vertical-align: top; position: relative; top: 40px; }
+@-webkit-keyframes blink { 50% { opacity: .25; } }
+@keyframes blink { 50% { opacity: .25; } }
+#dayname { font-size: 52px; font-weight: 300; margin-top: 26px; letter-spacing: 2px; }
+#datefull { font-size: 38px; font-weight: 300; color: #ccc; margin-top: 8px; letter-spacing: 1px; }
+
+/* ---------- WEATHER ---------- */
+#weather { background: #0d2a4a; }
+.sky { position: absolute; left: 0; top: 0; width: 1280px; height: 420px; overflow: hidden; }
+.sky.clear-day  { background: #5d9fe0; background: -webkit-linear-gradient(top, #3f86d4 0%, #7fb6ea 55%, #cfe6f7 100%); background: linear-gradient(#3f86d4 0%, #7fb6ea 55%, #cfe6f7 100%); }
+.sky.cloudy-day { background: #8a9cb0; background: -webkit-linear-gradient(top, #6f8399 0%, #a3b3c4 60%, #d6dee6 100%); background: linear-gradient(#6f8399 0%, #a3b3c4 60%, #d6dee6 100%); }
+.sky.rain       { background: #55626f; background: -webkit-linear-gradient(top, #3d4a59 0%, #64717f 60%, #8f9aa5 100%); background: linear-gradient(#3d4a59 0%, #64717f 60%, #8f9aa5 100%); }
+.sky.storm      { background: #2c333d; background: -webkit-linear-gradient(top, #1f252e 0%, #3a434f 60%, #5b6470 100%); background: linear-gradient(#1f252e 0%, #3a434f 60%, #5b6470 100%); }
+.sky.snow       { background: #a9bccf; background: -webkit-linear-gradient(top, #8ea5bd 0%, #c5d3e0 60%, #eef3f7 100%); background: linear-gradient(#8ea5bd 0%, #c5d3e0 60%, #eef3f7 100%); }
+.sky.fog        { background: #a1a9b1; background: -webkit-linear-gradient(top, #8d969f 0%, #b5bcc3 60%, #d9dde1 100%); background: linear-gradient(#8d969f 0%, #b5bcc3 60%, #d9dde1 100%); }
+.sky.night      { background: #0f1d3a; background: -webkit-linear-gradient(top, #050d22 0%, #13254a 60%, #2b4472 100%); background: linear-gradient(#050d22 0%, #13254a 60%, #2b4472 100%); }
+.sky .glow {
+  position: absolute; right: 180px; top: -60px; width: 360px; height: 360px; border-radius: 50%;
+  background: -webkit-radial-gradient(center, circle, rgba(255,240,180,.85) 0%, rgba(255,220,120,.25) 40%, rgba(255,220,120,0) 70%);
+  background: radial-gradient(circle, rgba(255,240,180,.85) 0%, rgba(255,220,120,.25) 40%, rgba(255,220,120,0) 70%);
+}
+.sky .cloudshape {
+  position: absolute; left: 0; border-radius: 100px; opacity: .75;
+  -webkit-animation: drift linear infinite; animation: drift linear infinite;
+}
+.sky .cloudshape .p1, .sky .cloudshape .p2 { position: absolute; border-radius: 50%; background: inherit; }
+.sky .cloudshape .p1 { width: 55%; height: 180%; left: 12%; top: -90%; }
+.sky .cloudshape .p2 { width: 40%; height: 140%; left: 48%; top: -60%; }
+@-webkit-keyframes drift { from { -webkit-transform: translateX(-400px); } to { -webkit-transform: translateX(1700px); } }
+@keyframes drift { from { transform: translateX(-400px); } to { transform: translateX(1700px); } }
+.sky .drop {
+  position: absolute; top: -30px; width: 2px; height: 26px; background: rgba(220,235,255,.7);
+  -webkit-animation: fall linear infinite; animation: fall linear infinite;
+}
+@-webkit-keyframes fall { to { -webkit-transform: translate(-40px, 480px); } }
+@keyframes fall { to { transform: translate(-40px, 480px); } }
+.sky .flake {
+  position: absolute; top: -10px; border-radius: 50%; background: #fff; opacity: .9;
+  -webkit-animation: snowfall linear infinite; animation: snowfall linear infinite;
+}
+@-webkit-keyframes snowfall { to { -webkit-transform: translate(40px, 450px); } }
+@keyframes snowfall { to { transform: translate(40px, 450px); } }
+.sky .star { position: absolute; width: 2px; height: 2px; background: #fff; -webkit-animation: twinkle 3s ease-in-out infinite; animation: twinkle 3s ease-in-out infinite; }
+@-webkit-keyframes twinkle { 50% { opacity: .2; } }
+@keyframes twinkle { 50% { opacity: .2; } }
+.sky .flash { position: absolute; left: 0; top: 0; width: 100%; height: 100%; background: #fff; opacity: 0; -webkit-animation: flash 7s infinite; animation: flash 7s infinite; }
+@-webkit-keyframes flash { 0%, 93%, 100% { opacity: 0; } 94% { opacity: .55; } 95% { opacity: 0; } 96% { opacity: .35; } }
+@keyframes flash { 0%, 93%, 100% { opacity: 0; } 94% { opacity: .55; } 95% { opacity: 0; } 96% { opacity: .35; } }
+.sky .mist { position: absolute; left: -10%; width: 120%; height: 60px; background: rgba(255,255,255,.25); border-radius: 30px; }
+.skyline { position: absolute; left: 0; bottom: 0; width: 1280px; height: 170px; }
+
+.wtop {
+  position: absolute; left: 0; top: 0; width: 1280px; height: 420px; padding: 34px 56px;
+  background: -webkit-linear-gradient(left, rgba(3,14,30,.82) 0%, rgba(3,14,30,.64) 55%, rgba(3,14,30,.38) 100%);
+  background: linear-gradient(90deg, rgba(3,14,30,.82) 0%, rgba(3,14,30,.64) 55%, rgba(3,14,30,.38) 100%);
+  text-shadow: 0 2px 10px rgba(0,0,0,.75);
+}
+#locName { font-size: 40px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; }
+#locSub { font-size: 22px; font-weight: 300; opacity: .9; margin-top: 4px; }
+#curTemp { font-size: 200px; font-weight: 300; line-height: 1; margin-top: 12px; letter-spacing: -4px; }
+.curRight { position: absolute; right: 100px; top: 60px; width: 340px; text-align: center; }
+#curIcon { height: 190px; }
+#curIcon svg { width: 190px; height: 190px; }
+#curDesc { font-size: 36px; font-weight: 400; margin-top: -6px; }
+.curDetails { font-size: 22px; line-height: 1.4; margin-top: 6px; }
+
+.tabs {
+  position: absolute; left: 640px; top: 30px; white-space: nowrap; padding: 7px; border-radius: 28px; background: rgba(3,14,30,.72);
+  -webkit-transform: translateX(-50%); transform: translateX(-50%);
+}
+.tab {
+  display: inline-block; margin: 0 5px; padding: 8px 18px; border-radius: 22px; font-size: 18px; color: #fff;
+  background: rgba(0,0,0,.25); border: 1px solid rgba(255,255,255,.35); text-shadow: none;
+}
+.tab.on { background: rgba(255,255,255,.9); color: #0d2a4a; font-weight: bold; }
+
+/* Bottom panel: forecast strip (top) + big buttons (bottom row) */
+.wbottom {
+  position: absolute; left: 0; top: 420px; width: 1280px; height: 300px; background: #0e2e52;
+  background: -webkit-linear-gradient(top, #123a63, #0a2240); background: linear-gradient(#123a63, #0a2240);
+}
+.forecastScroll {
+  position: absolute; left: 0; top: 0; width: 1280px; height: 216px; padding: 14px 0 0 56px;
+  overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch; white-space: nowrap;
+}
+#forecast { display: inline-block; white-space: nowrap; padding-right: 38px; }
+.hcard, .dcard {
+  display: inline-block; vertical-align: top; margin-right: 18px; height: 190px; text-align: center;
+  border: 2px solid rgba(255,255,255,.75); border-radius: 6px; padding-top: 10px; white-space: normal;
+}
+.hcard { width: 170px; }
+.dcard { width: 180px; }
+.hcard .t { font-size: 28px; height: 36px; }
+.hcard .ic { height: 92px; }
+.hcard .ic svg { width: 88px; height: 88px; }
+.hcard .v { font-size: 34px; }
+.dcard .day { font-size: 23px; height: 38px; }
+.dcard .ic { height: 92px; padding-top: 6px; }
+.dcard .ic svg { width: 78px; height: 78px; }
+.dcard .range { font-size: 24px; }
+
+/* Big action buttons */
+.wActions { position: absolute; right: 40px; bottom: 10px; z-index: 2; white-space: nowrap; }
+.actionBtn {
+  display: inline-block; margin-left: 16px; height: 66px; line-height: 62px; padding: 0 30px; min-width: 240px; text-align: center;
+  border: 2px solid rgba(255,255,255,.85); border-radius: 33px;
+  background: rgba(3,14,30,.88); color: #fff; font-size: 26px; font-weight: bold;
+}
+.actionBtn.pressed { background: rgba(255,255,255,.3); }
+.refreshBtn .ico { display: inline-block; font-size: 30px; line-height: 1; vertical-align: -3px; }
+.refreshBtn.busy { opacity: .75; }
+.refreshBtn.busy .ico { -webkit-animation: spin .9s linear infinite; animation: spin .9s linear infinite; }
+.refreshBtn.ok { border-color: #7ddc8a; }
+.refreshBtn.fail { border-color: #ffc65c; }
+@-webkit-keyframes spin { to { -webkit-transform: rotate(360deg); } }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+#status { position: absolute; left: 56px; bottom: 32px; font-size: 16px; opacity: .65; }
+#status.offline { color: #ffc65c; opacity: .95; font-weight: bold; }
+
+#dots { position: absolute; bottom: 4px; left: 640px; z-index: 10; white-space: nowrap; -webkit-transform: translateX(-50%); transform: translateX(-50%); }
+#dots span { display: inline-block; width: 10px; height: 10px; margin: 0 5px; border-radius: 50%; background: rgba(255,255,255,.3); }
+#dots span.on { background: #fff; }
+
+/* Exit: larger, closes on the first tap */
+.exitBtn {
+  position: absolute; top: 14px; right: 14px; z-index: 30; width: 72px; height: 72px;
+  border-radius: 36px; border: 2px solid rgba(255,255,255,.7); background: rgba(0,0,0,.6);
+  color: #fff; font-size: 34px; line-height: 68px; text-align: center; opacity: .8;
+}
+.exitBtn.pressed { background: #b3261e; border-color: #ff8a80; opacity: 1; }
